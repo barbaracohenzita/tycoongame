@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0f17"/>
+      <stop offset="0.5" stop-color="#1a1024"/>
+      <stop offset="1" stop-color="#0b0f17"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffd700"/>
+      <stop offset="1" stop-color="#ff6b35"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="8"/></filter>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <g filter="url(#glow)" opacity="0.5">
+    <circle cx="256" cy="256" r="120" fill="url(#gold)"/>
+  </g>
+  <!-- Columns (classical building -> tycoon motif) -->
+  <g fill="url(#gold)">
+    <!-- base -->
+    <rect x="96" y="360" width="320" height="24" rx="4"/>
+    <!-- columns -->
+    <rect x="120" y="200" width="36" height="160"/>
+    <rect x="176" y="200" width="36" height="160"/>
+    <rect x="232" y="200" width="36" height="160"/>
+    <rect x="288" y="200" width="36" height="160"/>
+    <rect x="344" y="200" width="36" height="160"/>
+    <!-- capitals -->
+    <rect x="110" y="192" width="56" height="14" rx="3"/>
+    <rect x="166" y="192" width="56" height="14" rx="3"/>
+    <rect x="222" y="192" width="56" height="14" rx="3"/>
+    <rect x="278" y="192" width="56" height="14" rx="3"/>
+    <rect x="334" y="192" width="56" height="14" rx="3"/>
+    <!-- pediment -->
+    <polygon points="80,192 256,112 432,192"/>
+  </g>
+  <!-- star on pediment -->
+  <path d="M256 132 L263 148 L280 148 L266 158 L271 174 L256 164 L241 174 L246 158 L232 148 L249 148 Z" fill="#0b0f17"/>
+</svg>

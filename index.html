@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0f17" />
+  <meta name="description" content="Empire Wars — Build a business empire, crush rivals, dominate the market." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <title>Empire Wars — Tycoon</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ============ HOME SCREEN ============ -->
+    <section id="screen-home" class="screen active">
+      <div class="home-hero">
+        <div class="logo">🏛️</div>
+        <h1 class="title">EMPIRE WARS</h1>
+        <p class="subtitle">Build your tycoon empire. Crush the rivals.</p>
+      </div>
+      <div class="home-actions">
+        <button class="btn btn-primary btn-lg" id="btn-new-game">▶ NEW GAME</button>
+        <button class="btn btn-secondary" id="btn-continue" disabled>▶ CONTINUE</button>
+        <button class="btn btn-ghost" id="btn-how-to-play">HOW TO PLAY</button>
+      </div>
+      <div class="home-footer">v1.0 · offline · no ads</div>
+    </section>
+
+    <!-- ============ FACTION SELECT ============ -->
+    <section id="screen-faction" class="screen">
+      <header class="topbar">
+        <button class="btn-icon" data-back="home">←</button>
+        <h2>Choose Your Faction</h2>
+      </header>
+      <div class="faction-grid" id="faction-grid"></div>
+    </section>
+
+    <!-- ============ GAME DASHBOARD ============ -->
+    <section id="screen-game" class="screen">
+      <header class="topbar game-topbar">
+        <div class="stat-group">
+          <div class="stat">
+            <span class="stat-label">CASH</span>
+            <span class="stat-value" id="hud-cash">$0</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">NET WORTH</span>
+            <span class="stat-value" id="hud-networth">$0</span>
+          </div>
+        </div>
+        <div class="stat-group">
+          <div class="stat">
+            <span class="stat-label">TURN</span>
+            <span class="stat-value" id="hud-turn">1/60</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label" id="hud-phase-label">MARKET</span>
+            <span class="stat-value phase-normal" id="hud-phase">Normal</span>
+          </div>
+        </div>
+      </header>
+
+      <nav class="tabs">
+        <button class="tab active" data-tab="empire">🏢 Empire</button>
+        <button class="tab" data-tab="market">🏭 Market</button>
+        <button class="tab" data-tab="research">🔬 R&D</button>
+        <button class="tab" data-tab="rivals">👥 Rivals</button>
+      </nav>
+
+      <main class="tab-content">
+        <!-- Empire Tab -->
+        <div class="tab-pane active" data-pane="empire">
+          <div class="section-header">
+            <h3>Your Businesses</h3>
+            <span class="badge" id="empire-income">+$0/turn</span>
+          </div>
+          <div id="empire-list" class="card-list"></div>
+          <div id="empire-empty" class="empty-state">
+            No businesses yet. Visit the <b>Market</b> tab to buy your first one.
+          </div>
+        </div>
+
+        <!-- Market Tab -->
+        <div class="tab-pane" data-pane="market">
+          <div class="section-header">
+            <h3>Industries Catalog</h3>
+            <span class="badge" id="market-filter-badge">12 sectors</span>
+          </div>
+          <div id="market-list" class="card-list"></div>
+        </div>
+
+        <!-- Research Tab -->
+        <div class="tab-pane" data-pane="research">
+          <div class="section-header">
+            <h3>Technology Tree</h3>
+          </div>
+          <div id="research-list" class="card-list"></div>
+        </div>
+
+        <!-- Rivals Tab -->
+        <div class="tab-pane" data-pane="rivals">
+          <div class="section-header">
+            <h3>Leaderboard</h3>
+          </div>
+          <div id="rivals-list" class="card-list"></div>
+        </div>
+      </main>
+
+      <footer class="bottom-bar">
+        <button class="btn btn-primary btn-full" id="btn-end-turn">END TURN →</button>
+      </footer>
+    </section>
+
+    <!-- ============ TURN RESOLUTION OVERLAY ============ -->
+    <div id="overlay-resolution" class="overlay">
+      <div class="resolution-card">
+        <h2>Turn <span id="res-turn-num">2</span> Results</h2>
+        <div id="res-body"></div>
+        <button class="btn btn-primary btn-full" id="btn-res-continue">CONTINUE</button>
+      </div>
+    </div>
+
+    <!-- ============ VICTORY / DEFEAT ============ -->
+    <div id="overlay-gameover" class="overlay">
+      <div class="gameover-card">
+        <div class="gameover-icon" id="go-icon">🏆</div>
+        <h2 id="go-title">VICTORY</h2>
+        <p id="go-subtitle">You built a $1M empire!</p>
+        <div id="go-stats"></div>
+        <div class="gameover-actions">
+          <button class="btn btn-primary btn-full" id="btn-new-game-2">NEW GAME</button>
+          <button class="btn btn-ghost btn-full" id="btn-back-home">MAIN MENU</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ HOW TO PLAY ============ -->
+    <div id="overlay-howto" class="overlay">
+      <div class="howto-card">
+        <h2>How to Play</h2>
+        <div class="howto-body">
+          <p><b>Goal:</b> Be the first tycoon to reach <b>$1,000,000</b> net worth, or the last one standing after 60 turns.</p>
+          <p><b>Turns:</b> Each turn you can buy businesses, upgrade them, and research tech. Then hit <b>END TURN</b> — rivals move, markets shift, income pays out.</p>
+          <p><b>Factions:</b> Your faction gives you +10% income on its home sector.</p>
+          <p><b>Market Phases:</b> Boom (1.3x), Normal (1.0x), Recession (0.9x), Crash (0.7x). Sectors swing independently.</p>
+          <p><b>Strategy:</b> Diversify across sectors to survive crashes. Upgrade top earners. Research tech for permanent bonuses.</p>
+        </div>
+        <button class="btn btn-primary btn-full" id="btn-close-howto">GOT IT</button>
+      </div>
+    </div>
+
+    <!-- ============ TOAST ============ -->
+    <div id="toast" class="toast"></div>
+
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(console.error));
+    }
+  </script>
+</body>
+</html>
