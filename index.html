@@ -17,19 +17,19 @@
 <body>
   <div id="app">
 
-    <!-- ============ HOME SCREEN ============ -->
+    <!-- ============ HOME ============ -->
     <section id="screen-home" class="screen active">
       <div class="home-hero">
         <div class="logo">🏛️</div>
         <h1 class="title">EMPIRE WARS</h1>
-        <p class="subtitle">Build your tycoon empire. Crush the rivals.</p>
+        <p class="subtitle">Build your tycoon empire. Set prices. Crush rivals.</p>
       </div>
       <div class="home-actions">
         <button class="btn btn-primary btn-lg" id="btn-new-game">▶ NEW GAME</button>
         <button class="btn btn-secondary" id="btn-continue" disabled>▶ CONTINUE</button>
         <button class="btn btn-ghost" id="btn-how-to-play">HOW TO PLAY</button>
       </div>
-      <div class="home-footer">v1.0 · offline · no ads</div>
+      <div class="home-footer">v2.0 · deep sim · offline · no ads</div>
     </section>
 
     <!-- ============ FACTION SELECT ============ -->
@@ -45,93 +45,113 @@
     <section id="screen-game" class="screen">
       <header class="topbar game-topbar">
         <div class="stat-group">
-          <div class="stat">
-            <span class="stat-label">CASH</span>
-            <span class="stat-value" id="hud-cash">$0</span>
-          </div>
-          <div class="stat">
-            <span class="stat-label">NET WORTH</span>
-            <span class="stat-value" id="hud-networth">$0</span>
-          </div>
+          <div class="stat"><span class="stat-label">CASH</span><span class="stat-value" id="hud-cash">$0</span></div>
+          <div class="stat"><span class="stat-label">NET WORTH</span><span class="stat-value" id="hud-networth">$0</span></div>
+          <div class="stat"><span class="stat-label">BRAND</span><span class="stat-value" id="hud-brand">50</span></div>
         </div>
         <div class="stat-group">
-          <div class="stat">
-            <span class="stat-label">TURN</span>
-            <span class="stat-value" id="hud-turn">1/60</span>
-          </div>
-          <div class="stat">
-            <span class="stat-label" id="hud-phase-label">MARKET</span>
-            <span class="stat-value phase-normal" id="hud-phase">Normal</span>
-          </div>
+          <div class="stat"><span class="stat-label">MONTH</span><span class="stat-value" id="hud-turn">1/60</span></div>
+          <div class="stat"><span class="stat-label">MARKET</span><span class="stat-value phase-normal" id="hud-phase">Normal</span></div>
         </div>
       </header>
 
       <nav class="tabs">
         <button class="tab active" data-tab="empire">🏢 Empire</button>
+        <button class="tab" data-tab="financials">📊 Finance</button>
         <button class="tab" data-tab="market">🏭 Market</button>
         <button class="tab" data-tab="research">🔬 R&D</button>
         <button class="tab" data-tab="rivals">👥 Rivals</button>
       </nav>
 
       <main class="tab-content">
-        <!-- Empire Tab -->
         <div class="tab-pane active" data-pane="empire">
           <div class="section-header">
             <h3>Your Businesses</h3>
-            <span class="badge" id="empire-income">+$0/turn</span>
+            <span class="badge" id="empire-income">+$0/t</span>
           </div>
           <div id="empire-list" class="card-list"></div>
-          <div id="empire-empty" class="empty-state">
-            No businesses yet. Visit the <b>Market</b> tab to buy your first one.
-          </div>
+          <div id="empire-empty" class="empty-state">No businesses yet. Visit the <b>Market</b> tab.</div>
         </div>
 
-        <!-- Market Tab -->
+        <div class="tab-pane" data-pane="financials">
+          <div class="section-header"><h3>Financials</h3></div>
+          <div id="pnl-box" class="pnl-box"></div>
+          <div id="chart-box" class="chart-box"></div>
+        </div>
+
         <div class="tab-pane" data-pane="market">
           <div class="section-header">
             <h3>Industries Catalog</h3>
-            <span class="badge" id="market-filter-badge">12 sectors</span>
+            <span class="badge">12 sectors</span>
           </div>
           <div id="market-list" class="card-list"></div>
         </div>
 
-        <!-- Research Tab -->
         <div class="tab-pane" data-pane="research">
-          <div class="section-header">
-            <h3>Technology Tree</h3>
-          </div>
+          <div class="section-header"><h3>Technology Tree</h3></div>
           <div id="research-list" class="card-list"></div>
         </div>
 
-        <!-- Rivals Tab -->
         <div class="tab-pane" data-pane="rivals">
-          <div class="section-header">
-            <h3>Leaderboard</h3>
-          </div>
+          <div class="section-header"><h3>Leaderboard</h3></div>
           <div id="rivals-list" class="card-list"></div>
         </div>
       </main>
 
       <footer class="bottom-bar">
-        <button class="btn btn-primary btn-full" id="btn-end-turn">END TURN →</button>
+        <button class="btn btn-primary btn-full" id="btn-end-turn">END MONTH →</button>
       </footer>
     </section>
 
-    <!-- ============ TURN RESOLUTION OVERLAY ============ -->
+    <!-- ============ BUSINESS DETAIL ============ -->
+    <section id="screen-biz-detail" class="screen">
+      <header class="topbar">
+        <button class="btn-icon" data-back="game">←</button>
+        <div style="flex:1;min-width:0;">
+          <h2 id="bd-title">Business</h2>
+          <div class="topbar-subtitle" id="bd-subtitle"></div>
+        </div>
+      </header>
+      <div class="bd-stats-row" id="bd-stats"></div>
+      <nav class="tabs">
+        <button class="tab active" data-bd-tab="products">💰 Products</button>
+        <button class="tab" data-bd-tab="staff">👥 Staff</button>
+        <button class="tab" data-bd-tab="marketing">📢 Marketing</button>
+        <button class="tab" data-bd-tab="upgrade">⚡ Upgrade</button>
+      </nav>
+      <main class="tab-content">
+        <div class="tab-pane active" data-bd-pane="products"><div id="bd-products"></div></div>
+        <div class="tab-pane" data-bd-pane="staff"><div id="bd-staff" class="staff-list"></div></div>
+        <div class="tab-pane" data-bd-pane="marketing"><div id="bd-marketing" class="mkt-list"></div></div>
+        <div class="tab-pane" data-bd-pane="upgrade"><div id="bd-upgrade" class="upgrade-box"></div></div>
+      </main>
+    </section>
+
+    <!-- ============ DECISION OVERLAY ============ -->
+    <div id="overlay-decision" class="overlay">
+      <div class="resolution-card">
+        <div class="dec-icon">⚖️</div>
+        <h2 id="dec-title">Decision</h2>
+        <p id="dec-body" class="dec-body"></p>
+        <div id="dec-options" class="dec-options"></div>
+      </div>
+    </div>
+
+    <!-- ============ TURN RESOLUTION ============ -->
     <div id="overlay-resolution" class="overlay">
       <div class="resolution-card">
-        <h2>Turn <span id="res-turn-num">2</span> Results</h2>
+        <h2>Month <span id="res-turn-num">2</span> Results</h2>
         <div id="res-body"></div>
         <button class="btn btn-primary btn-full" id="btn-res-continue">CONTINUE</button>
       </div>
     </div>
 
-    <!-- ============ VICTORY / DEFEAT ============ -->
+    <!-- ============ GAME OVER ============ -->
     <div id="overlay-gameover" class="overlay">
       <div class="gameover-card">
         <div class="gameover-icon" id="go-icon">🏆</div>
         <h2 id="go-title">VICTORY</h2>
-        <p id="go-subtitle">You built a $1M empire!</p>
+        <p id="go-subtitle"></p>
         <div id="go-stats"></div>
         <div class="gameover-actions">
           <button class="btn btn-primary btn-full" id="btn-new-game-2">NEW GAME</button>
@@ -145,19 +165,20 @@
       <div class="howto-card">
         <h2>How to Play</h2>
         <div class="howto-body">
-          <p><b>Goal:</b> Be the first tycoon to reach <b>$1,000,000</b> net worth, or the last one standing after 60 turns.</p>
-          <p><b>Turns:</b> Each turn you can buy businesses, upgrade them, and research tech. Then hit <b>END TURN</b> — rivals move, markets shift, income pays out.</p>
-          <p><b>Factions:</b> Your faction gives you +10% income on its home sector.</p>
-          <p><b>Market Phases:</b> Boom (1.3x), Normal (1.0x), Recession (0.9x), Crash (0.7x). Sectors swing independently.</p>
-          <p><b>Strategy:</b> Diversify across sectors to survive crashes. Upgrade top earners. Research tech for permanent bonuses.</p>
+          <p><b>Goal:</b> Build a <b>$5M</b> net worth empire or outlast rivals after 60 months.</p>
+          <p><b>Buy businesses</b> in the Market tab. Each has products with prices you control.</p>
+          <p><b>Price strategy:</b> Lower price → more volume, lower margin. Higher price → better margins, fewer customers. Balance vs competitors.</p>
+          <p><b>Hire staff:</b> Each role boosts quality or volume. Workers cheap, engineers expensive but powerful.</p>
+          <p><b>Marketing:</b> Allocate budget across 4 channels. Each channel hits different customer segments.</p>
+          <p><b>Brand:</b> Grows with marketing, drives demand. Crashes on bad decisions.</p>
+          <p><b>Research:</b> Tech unlocks permanent bonuses. Queue them early.</p>
+          <p><b>Decisions:</b> Random events demand choices. Wrong calls hurt your brand.</p>
         </div>
         <button class="btn btn-primary btn-full" id="btn-close-howto">GOT IT</button>
       </div>
     </div>
 
-    <!-- ============ TOAST ============ -->
     <div id="toast" class="toast"></div>
-
   </div>
 
   <script src="js/data.js"></script>
